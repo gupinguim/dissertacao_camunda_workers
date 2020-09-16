@@ -21,7 +21,7 @@ public class OrdemPagamento {
 	DICT contaOrigem;
 	DICT contaDestino;
 	long idCliente;
-	
+	String tipoPagamento;
 	public Date getDataPagamento() {
 		return dataPagamento;
 	}
@@ -65,7 +65,7 @@ public class OrdemPagamento {
 		this.idCliente = idCliente;
 	}
 	public OrdemPagamento(Date dataPagamento, Date dataCriacao, double valorOrdemPagamento,
-			String tipoSituacaoPagamento, DICT contaOrigem, DICT contaDestino, long idCliente) {
+			String tipoSituacaoPagamento, DICT contaOrigem, DICT contaDestino, long idCliente, String tipoPagamento) {
 		super();
 		this.dataPagamento = dataPagamento;
 		this.dataCriacao = dataCriacao;
@@ -74,6 +74,7 @@ public class OrdemPagamento {
 		this.contaOrigem = contaOrigem;
 		this.contaDestino = contaDestino;
 		this.idCliente = idCliente;
+		this.tipoPagamento = tipoPagamento;
 	}
 	public OrdemPagamento() {
 		super();
@@ -83,6 +84,12 @@ public class OrdemPagamento {
 	}
 	public void setId(long id) {
 		this.id = id;
+	}
+	public String getTipoPagamento() {
+		return tipoPagamento;
+	}
+	public void setTipoPagamento(String tipoPagamento) {
+		this.tipoPagamento = tipoPagamento;
 	}
 	
 }

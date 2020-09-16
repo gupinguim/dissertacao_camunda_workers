@@ -28,7 +28,6 @@ public class ValidarClienteApplication {
 					String dictOrigemEmail = (String) externalTask.getVariable("dict_origem_email");
 					String dictOrigemCpf = (String) externalTask.getVariable("dict_origem_cpf");
 					String dictOrigemUuid = (String) externalTask.getVariable("dict_origem_uuid");
-
 					Long idCliente = (Long) externalTask.getVariable("id_cliente");
 
 					try {

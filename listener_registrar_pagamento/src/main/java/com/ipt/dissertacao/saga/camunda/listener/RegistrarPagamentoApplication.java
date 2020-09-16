@@ -47,11 +47,13 @@ public class RegistrarPagamentoApplication {
 					String dictDestinoEmail = (String) externalTask.getVariable("dict_destino_email");
 					String dictDestinoCpf = (String) externalTask.getVariable("dict_destino_cpf");
 					String dictDestinoUuid = (String) externalTask.getVariable("dict_destino_uuid");
+					
+					String tipoTransferencia = (String) externalTask.getVariable("tipo_transferencia");
 
 					try {
 						long id = validarLogicaNegocio(dataPagamento, dataCriacao, valorPagamento, idCliente,
 								dictOrigemTelefone, dictOrigemEmail, dictOrigemCpf, dictOrigemUuid, dictDestinoTelefone,
-								dictDestinoEmail, dictDestinoCpf, dictDestinoUuid);
+								dictDestinoEmail, dictDestinoCpf, dictDestinoUuid,tipoTransferencia);
 
 						externalTaskService.complete(externalTask, Collections.singletonMap("id_ordem_pagamento", id));
 					} catch (BusinessException e) {
@@ -65,7 +67,7 @@ public class RegistrarPagamentoApplication {
 
 	public static long validarLogicaNegocio(Date dataPagamento, Date dataCriacao, double valorPagamento, Long idCliente,
 			String dictOrigemTelefone, String dictOrigemEmail, String dictOrigemCpf, String dictOrigemUuid,
-			String dictDestinoTelefone, String dictDestinoEmail, String dictDestinoCpf, String dictDestinoUuid)
+			String dictDestinoTelefone, String dictDestinoEmail, String dictDestinoCpf, String dictDestinoUuid, String tipoTransferencia)
 			throws Exception, BusinessException {
 
 		Client webClient = null;
@@ -78,7 +80,7 @@ public class RegistrarPagamentoApplication {
 
 			OrdemPagamento op = new OrdemPagamento(dataPagamento, dataCriacao, valorPagamento, "novo",
 					new DICT(dictOrigemTelefone, dictOrigemEmail, dictOrigemCpf, dictOrigemUuid),
-					new DICT(dictDestinoTelefone, dictDestinoEmail, dictDestinoCpf, dictDestinoUuid), idCliente);
+					new DICT(dictDestinoTelefone, dictDestinoEmail, dictDestinoCpf, dictDestinoUuid), idCliente, tipoTransferencia);
 
 			response = webTarget.request(MediaType.APPLICATION_JSON)
 					.buildPost(Entity.entity(op, MediaType.APPLICATION_JSON)).invoke();

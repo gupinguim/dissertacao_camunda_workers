@@ -42,7 +42,7 @@ public class ReservarContaApplication {
 					} catch (BusinessException e) {
 						externalTaskService.handleBpmnError(externalTask, e.getErrCode(), e.getMessage());
 					} catch (Exception e) {
-						externalTaskService.handleFailure(externalTask, "1", e.getMessage(), 0, 0);
+						externalTaskService.handleFailure(externalTask, "ERR_01", e.getMessage(), 0, 0);
 					}
 				}).open();
 
