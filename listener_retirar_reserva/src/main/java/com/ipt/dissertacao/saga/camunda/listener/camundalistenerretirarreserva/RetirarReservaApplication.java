@@ -13,40 +13,53 @@ import javax.ws.rs.core.UriBuilder;
 
 import org.camunda.bpm.client.ExternalTaskClient;
 
+import com.ipt.dissertacao.base.GetConfigurations;
 import com.ipt.dissertacao.base.exceptions.BusinessException;
 import com.ipt.dissertacao.saga.camunda.listener.entidades.Movimento;
 
 public class RetirarReservaApplication {
+	static String url_cliente;
+	static String url_conta;
+	static String url_camunda;
 
 	public static void main(String[] args) {
-		ExternalTaskClient client = ExternalTaskClient.create().baseUrl("http://localhost:8080/engine-rest")
-				.asyncResponseTimeout(10000) // long polling timeout
-				.build();
 
-		// subscribe to an external task topic as specified in the process
-		client.subscribe("retirar-reserva").lockDuration(1000) // the default lock duration is 20 seconds, but you
+		try {
+			GetConfigurations g = new GetConfigurations();
+			url_cliente = g.getUrl_cliente();
+			url_conta = g.getUrl_conta();
+			url_camunda = g.getUrl_camunda();
+
+			ExternalTaskClient client = ExternalTaskClient.create().baseUrl(url_camunda)
+					.asyncResponseTimeout(10000) // long polling timeout
+					.build();
+
+			// subscribe to an external task topic as specified in the process
+			client.subscribe("retirar-reserva").lockDuration(1000) // the default lock duration is 20 seconds, but you
 																	// can
 																	// override this
-				.handler((externalTask, externalTaskService) -> {
+					.handler((externalTask, externalTaskService) -> {
 
-					long idContaCliente = (Long) externalTask.getVariable("id_conta_cliente");
-					Double valorPagamento = (Double) externalTask.getVariable("valor_pagamento");
-					Long idCliente = (Long) externalTask.getVariable("id_cliente");
-					Date dataPagamento = new Date(Date.parse((String) externalTask.getVariable("data_pagamento")));
-					String origemMovimento = "Transferência PIX";
+						long idContaCliente = (Long) externalTask.getVariable("id_conta_cliente");
+						Double valorPagamento = (Double) externalTask.getVariable("valor_pagamento");
+						Long idCliente = (Long) externalTask.getVariable("id_cliente");
+						Date dataPagamento = new Date(Date.parse((String) externalTask.getVariable("data_pagamento")));
+						String origemMovimento = "Transferência PIX";
 
-					try {
-						long idMovimento = validarLogicaNegocio(idContaCliente, valorPagamento, idCliente,
-								dataPagamento, origemMovimento);
-						externalTaskService.complete(externalTask,
-								Collections.singletonMap("id_movimento_final", idMovimento));
-					} catch (BusinessException e) {
-						externalTaskService.handleBpmnError(externalTask, e.getErrCode(), e.getMessage());
-					} catch (Exception e) {
-						externalTaskService.handleFailure(externalTask, "1", e.getMessage(), 0, 0);
-					}
-				}).open();
-
+						try {
+							long idMovimento = validarLogicaNegocio(idContaCliente, valorPagamento, idCliente,
+									dataPagamento, origemMovimento);
+							externalTaskService.complete(externalTask,
+									Collections.singletonMap("id_movimento_final", idMovimento));
+						} catch (BusinessException e) {
+							externalTaskService.handleBpmnError(externalTask, e.getErrCode(), e.getMessage());
+						} catch (Exception e) {
+							externalTaskService.handleFailure(externalTask, "1", e.getMessage(), 0, 0);
+						}
+					}).open();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static long validarLogicaNegocio(long idContaCliente, Double valorPagamento, Long idCliente,
@@ -58,7 +71,7 @@ public class RetirarReservaApplication {
 			webClient = ClientBuilder.newClient();
 
 			webTarget = webClient.target(
-					UriBuilder.fromPath(String.format("http://localhost:8001/contas/%d/movimentos", idContaCliente)));
+					UriBuilder.fromPath(String.format("%s/contas/%d/movimentos", url_conta, idContaCliente)));
 
 			String tipoMovimento = "bloqueio debito"; // libera saldo bloqueado
 
@@ -72,7 +85,6 @@ public class RetirarReservaApplication {
 						response.getStatus(), response.toString()));
 			}
 
-			
 			Movimento retorno = response.readEntity(Movimento.class);
 
 			response.close();

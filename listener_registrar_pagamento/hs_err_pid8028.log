@@ -1,0 +1,157 @@
+#
+# There is insufficient memory for the Java Runtime Environment to continue.
+# Native memory allocation (malloc) failed to allocate 1048576 bytes for AllocateHeap
+# Possible reasons:
+#   The system is out of physical RAM or swap space
+#   In 32 bit mode, the process size limit was hit
+# Possible solutions:
+#   Reduce memory load on the system
+#   Increase physical memory or swap space
+#   Check if swap backing store is full
+#   Use 64 bit Java on a 64 bit OS
+#   Decrease Java heap size (-Xmx/-Xms)
+#   Decrease number of Java threads
+#   Decrease Java thread stack sizes (-Xss)
+#   Set larger code cache with -XX:ReservedCodeCacheSize=
+# This output file may be truncated or incomplete.
+#
+#  Out of Memory Error (memory/allocation.inline.hpp:61), pid=8028, tid=0x0000000000003914
+#
+# JRE version:  (8.0_181-b13) (build )
+# Java VM: Java HotSpot(TM) 64-Bit Server VM (25.181-b13 mixed mode windows-amd64 compressed oops)
+# Failed to write core dump. Minidumps are not enabled by default on client versions of Windows
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x00000000023f6800):  JavaThread "Unknown thread" [_thread_in_vm, id=14612, stack(0x00000000022f0000,0x00000000023f0000)]
+
+Stack: [0x00000000022f0000,0x00000000023f0000]
+[error occurred during error reporting (printing stack bounds), id 0xc0000005]
+
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+
+Other Threads:
+
+=>0x00000000023f6800 (exited) JavaThread "Unknown thread" [_thread_in_vm, id=14612, stack(0x00000000022f0000,0x00000000023f0000)]
+
+VM state:not at safepoint (normal execution)
+
+VM Mutex/Monitor currently owned by a thread: None
+
+Heap:
+ PSYoungGen      total 76288K, used 1310K [0x000000076b300000, 0x0000000770800000, 0x00000007c0000000)
+  eden space 65536K, 2% used [0x000000076b300000,0x000000076b447af0,0x000000076f300000)
+  from space 10752K, 0% used [0x000000076fd80000,0x000000076fd80000,0x0000000770800000)
+  to   space 10752K, 0% used [0x000000076f300000,0x000000076f300000,0x000000076fd80000)
+ ParOldGen       total 175104K, used 0K [0x00000006c1800000, 0x00000006cc300000, 0x000000076b300000)
+  object space 175104K, 0% used [0x00000006c1800000,0x00000006c1800000,0x00000006cc300000)
+ Metaspace       used 751K, capacity 4480K, committed 4480K, reserved 1056768K
+  class space    used 76K, capacity 384K, committed 384K, reserved 1048576K
+
+Card table byte_map: [0x00000000118b0000,0x00000000120b0000] byte_map_base: 0x000000000e2a4000
+
+Marking Bits: (ParMarkBitMap*) 0x000000006f702d00
+ Begin Bits: [0x0000000012e00000, 0x0000000016da0000)
+ End Bits:   [0x0000000016da0000, 0x000000001ad40000)
+
+Polling page: 0x0000000000550000
+
+CodeCache: size=245760Kb used=328Kb max_used=328Kb free=245431Kb
+ bounds [0x00000000024f0000, 0x0000000002760000, 0x00000000114f0000]
+ total_blobs=58 nmethods=0 adapters=38
+ compilation: enabled
+
+Compilation events (0 events):
+No events
+
+GC Heap History (0 events):
+No events
+
+Deoptimization events (0 events):
+No events
+
+Classes redefined (0 events):
+No events
+
+Internal exceptions (0 events):
+No events
+
+Events (10 events):
+Event: 0.046 loading class java/lang/Short
+Event: 0.046 loading class java/lang/Short done
+Event: 0.046 loading class java/lang/Integer
+Event: 0.047 loading class java/lang/Integer done
+Event: 0.047 loading class java/lang/Long
+Event: 0.047 loading class java/lang/Long done
+Event: 0.047 loading class java/lang/NullPointerException
+Event: 0.048 loading class java/lang/NullPointerException done
+Event: 0.048 loading class java/lang/ArithmeticException
+Event: 0.048 loading class java/lang/ArithmeticException done
+
+
+Dynamic libraries:
+0x00007ff798df0000 - 0x00007ff798e27000 	C:\Program Files\Java\jre1.8.0_181\bin\javaw.exe
+0x00007ffdaef00000 - 0x00007ffdaf0e1000 	C:\WINDOWS\SYSTEM32\ntdll.dll
+0x00007ffdae0c0000 - 0x00007ffdae171000 	C:\WINDOWS\System32\KERNEL32.DLL
+0x00007ffdabc90000 - 0x00007ffdabf03000 	C:\WINDOWS\System32\KERNELBASE.dll
+0x00007ffdac910000 - 0x00007ffdac9b1000 	C:\WINDOWS\System32\ADVAPI32.dll
+0x00007ffdae3c0000 - 0x00007ffdae45e000 	C:\WINDOWS\System32\msvcrt.dll
+0x00007ffdac390000 - 0x00007ffdac3eb000 	C:\WINDOWS\System32\sechost.dll
+0x00007ffdaca50000 - 0x00007ffdacb74000 	C:\WINDOWS\System32\RPCRT4.dll
+0x00007ffdae910000 - 0x00007ffdaeaa0000 	C:\WINDOWS\System32\USER32.dll
+0x00007ffdac110000 - 0x00007ffdac130000 	C:\WINDOWS\System32\win32u.dll
+0x00007ffdae090000 - 0x00007ffdae0b8000 	C:\WINDOWS\System32\GDI32.dll
+0x00007ffdabaf0000 - 0x00007ffdabc81000 	C:\WINDOWS\System32\gdi32full.dll
+0x00007ffdaba50000 - 0x00007ffdabaef000 	C:\WINDOWS\System32\msvcp_win.dll
+0x00007ffdabfc0000 - 0x00007ffdac0b8000 	C:\WINDOWS\System32\ucrtbase.dll
+0x00007ffd82980000 - 0x00007ffd82be9000 	C:\WINDOWS\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.17134.1345_none_d3ffd07b7c9058ed\COMCTL32.dll
+0x00007ffdaeab0000 - 0x00007ffdaedd1000 	C:\WINDOWS\System32\combase.dll
+0x00007ffdab9d0000 - 0x00007ffdaba49000 	C:\WINDOWS\System32\bcryptPrimitives.dll
+0x00007ffdaca20000 - 0x00007ffdaca4d000 	C:\WINDOWS\System32\IMM32.DLL
+0x000000006ec70000 - 0x000000006ed42000 	C:\Program Files\Java\jre1.8.0_181\bin\msvcr100.dll
+0x000000006eee0000 - 0x000000006f782000 	C:\Program Files\Java\jre1.8.0_181\bin\server\jvm.dll
+0x00007ffdac380000 - 0x00007ffdac388000 	C:\WINDOWS\System32\PSAPI.DLL
+0x00007ffda9300000 - 0x00007ffda9323000 	C:\WINDOWS\SYSTEM32\WINMM.dll
+0x00007ffda9460000 - 0x00007ffda9469000 	C:\WINDOWS\SYSTEM32\WSOCK32.dll
+0x00007ffda6090000 - 0x00007ffda609a000 	C:\WINDOWS\SYSTEM32\VERSION.dll
+0x00007ffdae460000 - 0x00007ffdae4cc000 	C:\WINDOWS\System32\WS2_32.dll
+0x00007ffda8eb0000 - 0x00007ffda8eda000 	C:\WINDOWS\SYSTEM32\WINMMBASE.dll
+0x00007ffdac0c0000 - 0x00007ffdac109000 	C:\WINDOWS\System32\cfgmgr32.dll
+0x000000006edf0000 - 0x000000006edff000 	C:\Program Files\Java\jre1.8.0_181\bin\verify.dll
+0x000000006edc0000 - 0x000000006ede9000 	C:\Program Files\Java\jre1.8.0_181\bin\java.dll
+0x000000006eda0000 - 0x000000006edb6000 	C:\Program Files\Java\jre1.8.0_181\bin\zip.dll
+
+VM Arguments:
+jvm_args: -Dfile.encoding=UTF-8 
+java_command: com.ipt.dissertacao.saga.camunda.listener.RegistrarPagamentoApplication
+java_class_path (initial): C:\Users\augus\Documents\GitHub\dissertacao_camunda_workers\listener_registrar_pagamento\target\classes;C:\Users\augus\Documents\GitHub\dissertacao_camunda_workers\base-listener\target\classes;C:\Users\augus\.m2\repository\org\springframework\boot\spring-boot-starter\2.3.3.RELEASE\spring-boot-starter-2.3.3.RELEASE.jar;C:\Users\augus\.m2\repository\org\springframework\boot\spring-boot\2.3.3.RELEASE\spring-boot-2.3.3.RELEASE.jar;C:\Users\augus\.m2\repository\org\springframework\spring-context\5.2.8.RELEASE\spring-context-5.2.8.RELEASE.jar;C:\Users\augus\.m2\repository\org\springframework\spring-aop\5.2.8.RELEASE\spring-aop-5.2.8.RELEASE.jar;C:\Users\augus\.m2\repository\org\springframework\spring-beans\5.2.8.RELEASE\spring-beans-5.2.8.RELEASE.jar;C:\Users\augus\.m2\repository\org\springframework\spring-expression\5.2.8.RELEASE\spring-expression-5.2.8.RELEASE.jar;C:\Users\augus\.m2\repository\org\springframework\boot\spring-boot-autoconfigure\2.3.3.RELEASE\spring-boot-autoconfigure-2.3.3.RELEASE.jar;C:\Users\augus\.m2\repository\org\springframework\boot\spring-boot-starter-logging\2.3.3.RELEASE\spring-boot-starter-logging-2.3.3.RELEASE.jar;C:\Users\augus\.m2\repository\ch\qos\logback\logback-classic\1.2.3\logback-classic-1.2.3.jar;C:\Users\augus\.m2\repository\ch\qos\logback\logback-core\1.2.3\logback-core-1.2.3.jar;C:\Users\augus\.m2\repository\org\apache\logging\log4j\log4j-to-slf4j\2.13.3\log4j-to-slf4j-2.13.3.jar;C:\Users\augus\.m2\repository\org\apache\logging\log4j\log4j-api\2.13.3\log4j-api-2.13.3.jar;C:\Users\augus\.m2\repository\org\slf4j\jul-to-slf4j\1.7.30\jul-to-slf4j-1.7.30.jar;C:\Users\augus\.m2\repository\jakarta\annotation\jakarta.annotation-api\1.3.5\jakarta.annotation-api-1.3.5.jar;C:\Users\augus\.m2\repository\org\springframework\spring-core\5.2.8.RELEASE\spring-core-5.2.8.RELEASE.jar;C:\Users\augus\.m2\repository\org\springframework\spring-jcl\5.2.8.RELEASE\spring-jcl-5.2.8.RELEASE.jar;C:\Users\augus\.m2\repository\org\y
+Launcher Type: SUN_STANDARD
+
+Environment Variables:
+JAVA_HOME=C:\Program Files (x86)\Java\jre1.8.0_221
+PATH=C:/Program Files/Java/jre1.8.0_181/bin/server;C:/Program Files/Java/jre1.8.0_181/bin;C:/Program Files/Java/jre1.8.0_181/lib/amd64;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\ProgramData\Oracle\Java\javapath;C:\Program Files (x86)\AMD APP\bin\x86_64;C:\Program Files (x86)\AMD APP\bin\x86;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\ATI Technologies\ATI.ACE\Core-Static;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\dotnet\;C:\Program Files\Microsoft\Web Platform Installer\;C:\Program Files\nodejs\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files\Git\cmd;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Users\augus\AppData\Local\Microsoft\WindowsApps;C:\Users\augus\AppData\Roaming\npm;C:\Users\augus\AppData\Local\GitHubDesktop\bin;C:\Users\augus\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\augus\AppData\Local\Programs\Python\Python38-32;C:\Gradle\bin;;C:\Spring;
+USERNAME=augus
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 58 Stepping 8, GenuineIntel
+
+
+
+---------------  S Y S T E M  ---------------
+
+OS: Windows 10.0 , 64 bit Build 17134 (10.0.17134.753)
+
+CPU:total 8 (initial active 8) (4 cores per cpu, 2 threads per core) family 6 model 58 stepping 8, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, aes, clmul, erms, ht, tsc, tscinvbit, tscinv
+
+Memory: 4k page, physical 16671292k(6096308k free), swap 17719868k(4904k free)
+
+vm_info: Java HotSpot(TM) 64-Bit Server VM (25.181-b13) for windows-amd64 JRE (1.8.0_181-b13), built on Jul  7 2018 04:01:33 by "java_re" with MS VC++ 10.0 (VS2010)
+
+time: Sat Sep 19 21:20:32 2020
+elapsed time: 0 seconds (0d 0h 0m 0s)
+

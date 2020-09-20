@@ -5,12 +5,18 @@ import java.util.Date;
 
 import org.camunda.bpm.client.ExternalTaskClient;
 
+import com.ipt.dissertacao.base.GetConfigurations;
 import com.ipt.dissertacao.base.exceptions.BusinessException;
 
 public class EnviarPagamentoNpApplication {
-
+	static String url_camunda;
 	public static void main(String[] args) {
-		ExternalTaskClient client = ExternalTaskClient.create().baseUrl("http://localhost:8080/engine-rest")
+		
+		try {
+		GetConfigurations g = new GetConfigurations();
+		url_camunda = g.getUrl_camunda();
+		
+		ExternalTaskClient client = ExternalTaskClient.create().baseUrl(url_camunda)
 				.asyncResponseTimeout(10000) // long polling timeout
 				.build();
 
@@ -35,12 +41,15 @@ public class EnviarPagamentoNpApplication {
 						externalTaskService.handleFailure(externalTask, "1", e.getMessage(), 0, 0);
 					}
 				}).open();
-
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static void validarLogicaNegocio(String cenario) throws Exception, BusinessException {
 
-		if (cenario.compareToIgnoreCase("falhar") == 0) {
+		if (cenario.compareToIgnoreCase("falhar pix") == 0) {
 			throw new BusinessException("ENP_01", "Falha no processamento do pagamento no PIX");
 		}
 

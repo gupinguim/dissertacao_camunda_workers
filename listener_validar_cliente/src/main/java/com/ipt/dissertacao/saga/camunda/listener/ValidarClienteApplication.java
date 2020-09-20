@@ -9,37 +9,53 @@ import org.camunda.bpm.client.ExternalTaskClient;
 import org.jboss.resteasy.client.jaxrs.*;
 
 import com.ipt.dissertacao.saga.camunda.listener.entidades.*;
+import com.ipt.dissertacao.base.GetConfigurations;
 import com.ipt.dissertacao.base.exceptions.*;
 
 public class ValidarClienteApplication {
 
+	static String url_cliente;
+	static String url_conta;
+	static String url_camunda;
 	public static void main(String[] args) {
 
-		ExternalTaskClient client = ExternalTaskClient.create().baseUrl("http://localhost:8080/engine-rest")
-				.asyncResponseTimeout(10000) // long polling timeout
-				.build();
+		try {
+			GetConfigurations g = new GetConfigurations();
+			url_cliente = g.getUrl_cliente();
+			url_conta = g.getUrl_conta();
+			url_camunda = g.getUrl_camunda();
+			
+			ExternalTaskClient client = ExternalTaskClient.create().baseUrl(url_camunda)
+					.asyncResponseTimeout(10000) // long polling timeout
+					.build();
 
-		// subscribe to an external task topic as specified in the process
-		client.subscribe("validar-cliente").lockDuration(1000) // the default lock duration is 20 seconds, but you can
-																// override this
-				.handler((externalTask, externalTaskService) -> {
+			// subscribe to an external task topic as specified in the process
+			client.subscribe("validar-cliente").lockDuration(1000) // the default lock duration is 20 seconds, but you
+																	// can
+																	// override this
+					.handler((externalTask, externalTaskService) -> {
 
-					String dictOrigemTelefone = (String) externalTask.getVariable("dict_origem_telefone");
-					String dictOrigemEmail = (String) externalTask.getVariable("dict_origem_email");
-					String dictOrigemCpf = (String) externalTask.getVariable("dict_origem_cpf");
-					String dictOrigemUuid = (String) externalTask.getVariable("dict_origem_uuid");
-					Long idCliente = (Long) externalTask.getVariable("id_cliente");
+						String dictOrigemTelefone = (String) externalTask.getVariable("dict_origem_telefone");
+						String dictOrigemEmail = (String) externalTask.getVariable("dict_origem_email");
+						String dictOrigemCpf = (String) externalTask.getVariable("dict_origem_cpf");
+						String dictOrigemUuid = (String) externalTask.getVariable("dict_origem_uuid");
+						Long idCliente = (Long) externalTask.getVariable("id_cliente");
 
-					try {
-						long idConta = validarLogicaNegocio(dictOrigemTelefone, dictOrigemEmail, dictOrigemCpf, dictOrigemUuid,
-								idCliente);
-						externalTaskService.complete(externalTask, Collections.singletonMap("id_conta_cliente", idConta));
-					} catch (BusinessException e) {
-						externalTaskService.handleBpmnError(externalTask, e.getErrCode(), e.getMessage());
-					} catch (Exception e) {
-						externalTaskService.handleFailure(externalTask, "1", e.getMessage(), 0, 0);
-					}
-				}).open();
+						try {
+							long idConta = validarLogicaNegocio(dictOrigemTelefone, dictOrigemEmail, dictOrigemCpf,
+									dictOrigemUuid, idCliente);
+							externalTaskService.complete(externalTask,
+									Collections.singletonMap("id_conta_cliente", idConta));
+						} catch (BusinessException e) {
+							externalTaskService.handleBpmnError(externalTask, e.getErrCode(), e.getMessage());
+						} catch (Exception e) {
+							externalTaskService.handleFailure(externalTask, "1", e.getMessage(), 0, 0);
+						}
+					}).open();
+		} catch (Exception e1) {
+			
+		}
+
 	}
 
 	public static long validarLogicaNegocio(String telefone, String email, String cpf, String uuid, Long idCliente)
@@ -50,8 +66,7 @@ public class ValidarClienteApplication {
 		try {
 			webClient = ClientBuilder.newClient();
 
-			webTarget = webClient
-					.target(UriBuilder.fromPath(String.format("http://localhost:8000/clientes/%d", idCliente)));
+			webTarget = webClient.target(UriBuilder.fromPath(String.format("%s/clientes/%d", url_cliente, idCliente)));
 
 			response = webTarget.request(MediaType.APPLICATION_JSON).buildGet().invoke();
 
@@ -66,7 +81,7 @@ public class ValidarClienteApplication {
 
 			response.close();
 
-			webTarget = webClient.target(UriBuilder.fromPath("http://localhost:8001/contas/buscar"));
+			webTarget = webClient.target(UriBuilder.fromPath(String.format("%s/contas/buscar", url_conta)));
 
 			response = webTarget.request(MediaType.APPLICATION_JSON)
 					.buildPost(Entity.entity(new DICT(telefone, email, cpf, uuid), MediaType.APPLICATION_JSON))

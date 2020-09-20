@@ -14,13 +14,23 @@ import javax.ws.rs.core.UriBuilder;
 
 import org.camunda.bpm.client.ExternalTaskClient;
 
+import com.ipt.dissertacao.base.GetConfigurations;
 import com.ipt.dissertacao.base.exceptions.BusinessException;
 import com.ipt.dissertacao.saga.camunda.listener.entidades.Movimento;
 
 public class ConfirmarPagamentoApplication {
-
+	static String url_cliente;
+	static String url_conta;
+	static String url_camunda;
+	
 	public static void main(String[] args) {
-		ExternalTaskClient client = ExternalTaskClient.create().baseUrl("http://localhost:8080/engine-rest")
+		try {
+		GetConfigurations g = new GetConfigurations();
+		url_cliente = g.getUrl_cliente();
+		url_conta = g.getUrl_conta();
+		url_camunda = g.getUrl_camunda();
+		
+		ExternalTaskClient client = ExternalTaskClient.create().baseUrl(url_camunda)
 				.asyncResponseTimeout(10000) // long polling timeout
 				.build();
 
@@ -47,7 +57,9 @@ public class ConfirmarPagamentoApplication {
 						externalTaskService.handleFailure(externalTask, "1", e.getMessage(), 0, 0);
 					}
 				}).open();
-
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static long validarLogicaNegocio(long idContaCliente, Double valorPagamento, Long idCliente,
@@ -59,7 +71,7 @@ public class ConfirmarPagamentoApplication {
 			webClient = ClientBuilder.newClient();
 
 			webTarget = webClient.target(
-					UriBuilder.fromPath(String.format("http://localhost:8001/contas/%d/movimentos", idContaCliente)));
+					UriBuilder.fromPath(String.format("%s/contas/%d/movimentos", url_conta, idContaCliente)));
 
 			String tipoMovimento = "credito"; // efetiva o movimento de credito
 			
