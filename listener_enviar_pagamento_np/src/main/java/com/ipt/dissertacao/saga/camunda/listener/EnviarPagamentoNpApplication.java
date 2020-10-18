@@ -49,9 +49,6 @@ public class EnviarPagamentoNpApplication {
 
 	public static void validarLogicaNegocio(String cenario) throws Exception, BusinessException {
 
-		if (cenario.compareToIgnoreCase("falhar pix") == 0) {
-			throw new BusinessException("ENP_01", "Falha no processamento do pagamento no PIX");
-		}
 
 	}
 }
